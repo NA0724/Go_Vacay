@@ -1,4 +1,4 @@
-module github.com/NA0724/Go_Vacay
+module Go_Vacay
 
 go 1.19
 
