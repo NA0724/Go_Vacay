@@ -1,0 +1,55 @@
+{{template "base" .}}
+
+{{define "title"}}
+<title>Contact Us</title>
+{{end}}
+
+{{define "content"}}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1 class="text-center mt-5">Search Availability</h1>
+            <hr>
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <form action="/search-availability" method="post" novalidate class="needs-validation">
+                            <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
+                            <div class="form-row" id="reservation-dates">
+                                <div class="col">
+                                    <div class="form-group mb-3">
+                                        <label for="startdate" class="form-label">Start Date</label>
+                                        <input required type="text" class="form-control" name="startdate" id="startdate"
+                                            placeholder="Check in">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group mb-3">
+                                        <label for="enddate" class="form-label">End Date</label>
+                                        <input required type="text" class="form-control" name="enddate" id="enddate"
+                                            placeholder="Check out">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr>
+                            <div class="col text-center">
+                                <button type="submit" class="btn btn-primary">Check</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{end}}
+
+{{define "js"}}
+<script>
+    const elem = document.getElementById('reservation-dates');
+    const rangepicker = new DateRangePicker(elem, {
+        //format: "yyyy-mm-dd"
+    });
+</script>
+{{end}}

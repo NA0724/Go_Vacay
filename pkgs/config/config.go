@@ -15,3 +15,7 @@ type AppConfig struct {
 	InProd        bool
 	Session       *scs.SessionManager
 }
+
+func GetPath() string {
+	return "/Users/neha/Go_Vacay/"
+}

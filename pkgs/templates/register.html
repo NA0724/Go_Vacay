@@ -1,0 +1,75 @@
+{{template "base" .}}
+
+{{define "title"}}
+<title>Register</title>
+{{end}}
+
+{{define "content"}}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1 class="text-center mt-5">Register Here</h1>
+            <hr>
+
+            <form>
+                <div class="form-row">
+                    <div class="col">
+                        <div class="mb-3">
+                            <label for="firstname" class="form-label">First Name</label>
+                            <input required type="text" class="form-control" id="firstname"
+                                aria-describedby="firstname">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="mb-3">
+                            <label for="lastname" class="form-label">Last Name</label>
+                            <input required type="lastname" class="form-control" id="lastname"
+                                aria-describedby="lastname">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col">
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">Email address</label>
+                            <input required type="email" class="form-control" id="exampleInputEmail1"
+                                aria-describedby="emailHelp">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">Retype Email address</label>
+                            <input required type="email" class="form-control" id="exampleInputEmail1"
+                                aria-describedby="emailHelp">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col">
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Password</label>
+                            <input required type="password" class="form-control" id="exampleInputPassword1">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Retype Password</label>
+                            <input required type="password" class="form-control" id="exampleInputPassword1">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                    <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                </div>
+                <hr>
+                <div class="col text-center">
+                    <button type="submit" class="btn btn-primary">Register</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+{{end}}

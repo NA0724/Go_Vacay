@@ -1,0 +1,73 @@
+{{template "base" .}}
+
+{{define "title"}}
+<title>Reservation</title>
+{{end}}
+
+{{define "content"}}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1 class="text-center mt-5">Make your Reservation here</h1>
+            <hr>
+            <form action="" method="post" class="needs-validation" novalidate>
+                <div class="form-row">
+                    <div class="col">
+                        <div class="form-group">
+
+                            <label for="firstname" class="form-label">First Name</label>
+                            <input required autocomplete="off" type="text" class="form-control" id="firstname"
+                                aria-describedby="firstname">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="lastname" class="form-label">Last Name</label>
+                            <input required autocomplete="off" type="text" class="form-control" id="lastname"
+                                aria-describedby="lastname">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="email" class="form-label">Email</label>
+                            <input required autocomplete="off" type="email" class="form-control" id="email"
+                                aria-describedby="email">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="phone" class="form-label">Phone</label>
+                            <input required autocomplete="off" type="number" class="form-control" id="phone"
+                                aria-describedby="phone">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row" id="reservation-dates">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="startdate" class="form-label">Start Date</label>
+                            <input required autocomplete="off" type="text" class="form-control" id="startdate"
+                                placeholder="Check in">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="enddate" class="form-label">End Date</label>
+                            <input required autocomplete="off" type="text" class="form-control" id="enddate"
+                                placeholder="Check out"">
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class=" col text-center">
+                            <button type="submit" class="btn btn-primary">Make Reservation</button>
+                        </div>
+            </form>
+
+
+        </div>
+    </div>
+</div>
+{{end}}

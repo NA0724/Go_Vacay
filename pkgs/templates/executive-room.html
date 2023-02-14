@@ -1,0 +1,94 @@
+{{template "base" .}}
+
+{{define "title"}}
+<title>Executive Room</title>
+{{end}}
+
+{{define "content"}}
+
+<div class="row">
+    <div class="col">
+        <img src="/static/images/executive.png" class="img-fluid img-thumbnail mx-auto d-block" alt="Executive Suite">
+    </div>
+</div>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <h1 class="text-center mt-4">Executive Luxurious Suite with King Size Bed</h1>
+            <p>
+                Your home away form home, set on the majestic waters of the Atlantic Ocean, this will be a vacation to
+                remember.
+                Your home away form home, set on the majestic waters of the Atlantic Ocean, this will be a vacation to
+                remember.
+                Your home away form home, set on the majestic waters of the Atlantic Ocean, this will be a vacation to
+                remember.
+                Your home away form home, set on the majestic waters of the Atlantic Ocean, this will be a vacation to
+                remember.
+                Your home away form home, set on the majestic waters of the Atlantic Ocean, this will be a vacation to
+                remember.
+                Your home away form home, set on the majestic waters of the Atlantic Ocean, this will be a vacation to
+                remember.
+            </p>
+        </div>
+    </div>
+
+
+    <div class="row">
+
+        <div class="col text-center">
+
+            <a href="#!" class="btn btn-success" id="check-availability-button">Check Availability</a>
+
+        </div>
+    </div>
+
+</div>
+{{end}}
+
+{{define "js"}}
+<script>
+    document.getElementById("check-availability-button").addEventListener("click", function () {
+
+        let html = `
+            <form id="check-availability-form" action="" method="post" novalidate class="needs-validation">
+                <div class="form-row">
+                    <div class="col">
+                        <div class="form-row" id="reservation-dates-modal">
+                            <div class="col">
+                                <input disabled required type="text" class="form-control" name="startdate" id="startdate" placeholder="Check in">
+                            </div>
+                            <div class="col">
+                                <input disabled required type="text" class="form-control" name="enddate" id="enddate" placeholder="Check out">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>`;
+
+        attention.custom({
+            title: 'Choose your dates',
+            msg: html,
+            callback: function (result) {
+                console.log("called");
+                let form = document.getElementById("check-availability-form");
+                let formData = new FormData(form);
+                formData.append("csrf_token", "{{.CSRFToken}}")
+                fetch("/search-availability-json", {
+                    method: "post",
+                    body: formData,
+
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                    });
+
+            }
+        });
+    });
+
+
+</script>
+{{end}}
