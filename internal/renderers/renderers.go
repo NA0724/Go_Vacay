@@ -1,14 +1,16 @@
 package renderers
 
 import (
-	"Go_Vacay/pkgs/config"
-	"Go_Vacay/pkgs/models"
+	"Go_Vacay/internal/config"
+	"Go_Vacay/internal/models"
 	"bytes"
 	"fmt"
 	"log"
 	"net/http"
 	"path/filepath"
 	"text/template"
+
+	"github.com/justinas/nosurf"
 )
 
 var app *config.AppConfig
@@ -18,11 +20,16 @@ func NewTemplates(a *config.AppConfig) {
 	app = a
 }
 
-func AddDefaultData(td *models.TemplateData) *models.TemplateData {
+// AddDefaultData adds data for all templates
+func AddDefaultData(td *models.TemplateData, r *http.Request) *models.TemplateData {
+	td.Flash = app.Session.PopString(r.Context(), "flash")
+	td.Warning = app.Session.PopString(r.Context(), "warning")
+	td.Error = app.Session.PopString(r.Context(), "error")
+	td.CSRFToken = nosurf.Token(r)
 	return td
 }
 
-func RenderTemplate(w http.ResponseWriter, tmpl string, tempdata *models.TemplateData, _ *http.Request) {
+func RenderTemplate(w http.ResponseWriter, tmpl string, tempdata *models.TemplateData, r *http.Request) {
 
 	var tc map[string]*template.Template
 	var er error
@@ -39,8 +46,8 @@ func RenderTemplate(w http.ResponseWriter, tmpl string, tempdata *models.Templat
 		log.Fatal("could not get template from template cache", er)
 	}
 	buffer := new(bytes.Buffer)
-	tempdata = AddDefaultData(tempdata) //default data
-	_ = t.Execute(buffer, tempdata)     //pass the data here
+	tempdata = AddDefaultData(tempdata, r) //default data
+	_ = t.Execute(buffer, tempdata)        //pass the data here
 	_, err := buffer.WriteTo(w)
 	if err != nil {
 		fmt.Println("error writing template to browser", err)
@@ -54,7 +61,7 @@ func CreateTemplateCache() (map[string]*template.Template, error) {
 	tempCache := map[string]*template.Template{}
 
 	//get all files named *.page.html from ./templates
-	pages, err := filepath.Glob(config.GetPath() + "pkgs/templates/*.html")
+	pages, err := filepath.Glob(config.GetDirPath() + "internal/templates/*.page.html")
 
 	if err != nil {
 		return tempCache, err
@@ -68,12 +75,12 @@ func CreateTemplateCache() (map[string]*template.Template, error) {
 			return tempCache, err
 		}
 		// find the layout template
-		matches, er := filepath.Glob(config.GetPath() + "pkgs/templates/*.layout.html") // find layout file
+		matches, er := filepath.Glob(config.GetDirPath() + "internal/templates/*.layout.html") // find layout file
 		if er != nil {
 			return tempCache, err
 		}
 		if len(matches) > 0 {
-			ts, err = ts.ParseGlob(config.GetPath() + "pkgs/templates/*.layout.html") // parse layout file
+			ts, err = ts.ParseGlob(config.GetDirPath() + "internal/templates/*.layout.html") // parse layout file
 			if err != nil {
 				return tempCache, err
 			}

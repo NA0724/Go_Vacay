@@ -3,8 +3,8 @@ package main
 import (
 	"net/http"
 
-	"Go_Vacay/pkgs/config"
-	"Go_Vacay/pkgs/handlers"
+	"Go_Vacay/internal/config"
+	"Go_Vacay/internal/handlers"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
@@ -29,7 +29,7 @@ func Routes(_ *config.AppConfig) http.Handler {
 	mux.Get("/deluxe-room", handlers.Repo.Deluxe)
 	mux.Get("/premier-room", handlers.Repo.Premier)
 
-	path := config.GetPath() + "static"
+	path := config.GetDirPath() + "static"
 	fileServer := http.FileServer(http.Dir(path))
 	mux.Handle("/static/*", http.StripPrefix("/static", fileServer))
 	return mux

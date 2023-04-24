@@ -6,9 +6,9 @@ import (
 	"net/http"
 	"time"
 
-	"Go_Vacay/pkgs/config"
-	"Go_Vacay/pkgs/handlers"
-	"Go_Vacay/pkgs/renderers"
+	"Go_Vacay/internal/config"
+	"Go_Vacay/internal/handlers"
+	"Go_Vacay/internal/renderers"
 
 	"github.com/alexedwards/scs/v2"
 )

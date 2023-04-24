@@ -16,6 +16,6 @@ type AppConfig struct {
 	Session       *scs.SessionManager
 }
 
-func GetPath() string {
+func GetDirPath() string {
 	return "/Users/neha/Go_Vacay/"
 }
