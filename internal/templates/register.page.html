@@ -10,58 +10,71 @@
         <div class="col">
             <h1 class="text-center mt-5">Register Here</h1>
             <hr>
+            
+            {{$reg := index .Data "register"}}
 
-            <form>
+            <form action="" method="post" class="" novalidate>
+                <input type="hidden" name="csrf_token" value="{{.CSRFToken}}" />
+
                 <div class="form-row">
                     <div class="col">
                         <div class="mb-3">
                             <label for="firstname" class="form-label">First Name</label>
-                            <input required type="text" class="form-control" id="firstname"
-                                aria-describedby="firstname">
+                            {{with .Form.Errors.Get "firstname"}}
+                                <label class="text-danger">{{.}}</label> 
+                            {{end}}
+                            <input required type="text" class="form-control {{with .Form.Errors.Get "firstname"}} is-invalid {{end}}" value="{{$reg.FirstName}}" id="firstname" name="firstname">
                         </div>
                     </div>
                     <div class="col">
                         <div class="mb-3">
                             <label for="lastname" class="form-label">Last Name</label>
-                            <input required type="lastname" class="form-control" id="lastname"
-                                aria-describedby="lastname">
+                            {{with .Form.Errors.Get "lastname"}}
+                                <label class="text-danger">{{.}}</label> 
+                            {{end}}
+                            <input required type="lastname" class="form-control  {{with .Form.Errors.Get "lastname"}} is-invalid {{end}}" value="{{$reg.LastName}}" id="lastname" name="lastname">
                         </div>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="col">
                         <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Email address</label>
-                            <input required type="email" class="form-control" id="exampleInputEmail1"
-                                aria-describedby="emailHelp">
+                            <label for="email" class="form-label">Email Address</label>
+                            {{with .Form.Errors.Get "email"}}
+                                <label class="text-danger">{{.}}</label> 
+                            {{end}}
+                            <input required type="email" class="form-control {{with .Form.Errors.Get "email" }} is-invalid {{end}}" value="{{$reg.Email}}" id="email" name="email">
                         </div>
                     </div>
                     <div class="col">
                         <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Retype Email address</label>
-                            <input required type="email" class="form-control" id="exampleInputEmail1"
-                                aria-describedby="emailHelp">
+                            <label for="email1" class="form-label">Retype Email Address</label>
+                            {{with .Form.Errors.Get "email1"}}
+                                <label class="text-danger">{{.}}</label> 
+                            {{end}}
+                            <input required type="email" class="form-control {{with .Form.Errors.Get "email1" }} is-invalid {{end}}"  id="email1" name="email1">
                         </div>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="col">
                         <div class="mb-3">
-                            <label for="exampleInputPassword1" class="form-label">Password</label>
-                            <input required type="password" class="form-control" id="exampleInputPassword1">
+                            <label for="password" class="form-label">Password</label>
+                            {{with .Form.Errors.Get "password"}}
+                                <label class="text-danger">{{.}}</label> 
+                            {{end}}
+                            <input required type="password" class="form-control {{with .Form.Errors.Get "password" }} is-invalid {{end}}" id="password" name="password" value="{{$reg.Password}}">
                         </div>
                     </div>
                     <div class="col">
                         <div class="mb-3">
-                            <label for="exampleInputPassword1" class="form-label">Retype Password</label>
-                            <input required type="password" class="form-control" id="exampleInputPassword1">
+                            <label for="pwd" class="form-label">Retype Password</label>
+                            {{with .Form.Errors.Get "pwd"}}
+                                <label class="text-danger">{{.}}</label> 
+                            {{end}}
+                            <input required type="password" class="form-control {{with .Form.Errors.Get "password" }} is-invalid {{end}}" id="pwd" name="pwd">
                         </div>
                     </div>
-                </div>
-
-                <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                    <label class="form-check-label" for="exampleCheck1">Check me out</label>
                 </div>
                 <hr>
                 <div class="col text-center">

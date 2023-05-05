@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/gob"
 	"fmt"
 	"log"
 	"net/http"
@@ -8,6 +9,7 @@ import (
 
 	"Go_Vacay/internal/config"
 	"Go_Vacay/internal/handlers"
+	"Go_Vacay/internal/models"
 	"Go_Vacay/internal/renderers"
 
 	"github.com/alexedwards/scs/v2"
@@ -21,6 +23,8 @@ var app config.AppConfig
 // main is the main function
 func main() {
 
+	gob.Register(models.Reservation{})
+	gob.Register(models.Registration{})
 	//set to true if production environment
 	app.InProd = false
 
@@ -46,7 +50,7 @@ func main() {
 
 	renderers.NewTemplates(&app)
 
-	fmt.Printf("Staring application on port %s", portNumber)
+	fmt.Printf("Staring application on port %s \n", portNumber)
 
 	serve := &http.Server{
 		Addr:    portNumber,

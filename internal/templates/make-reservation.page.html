@@ -10,21 +10,27 @@
         <div class="col">
             <h1 class="text-center mt-5">Make your Reservation here</h1>
             <hr>
-            <form action="" method="post" class="needs-validation" novalidate>
+            {{$res := index .Data "reservation"}}
+            
+            <form action="" method="post" class="" novalidate>
+                <input type="hidden" name="csrf_token" value="{{.CSRFToken}}" />
                 <div class="form-row">
                     <div class="col">
                         <div class="form-group">
-
                             <label for="firstname" class="form-label">First Name</label>
-                            <input required autocomplete="off" type="text" class="form-control" id="firstname"
-                                aria-describedby="firstname">
+                            {{with .Form.Errors.Get "firstname"}}
+                                <label class="text-danger">{{.}}</label> 
+                            {{end}}
+                            <input required autocomplete="on" type="text" class="form-control {{with .Form.Errors.Get "firstname"}} is-invalid {{end}}" value="{{$res.FirstName}}" id="firstname" name="firstname" >
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-group">
                             <label for="lastname" class="form-label">Last Name</label>
-                            <input required autocomplete="off" type="text" class="form-control" id="lastname"
-                                aria-describedby="lastname">
+                            {{with .Form.Errors.Get "lastname"}}
+                                <label class="text-danger">{{.}}</label> 
+                            {{end}}
+                            <input required autocomplete="on" type="text" class="form-control {{with .Form.Errors.Get "lastname"}} is-invalid {{end}}" value="{{$res.LastName}}" id="lastname" name="lastname">
                         </div>
                     </div>
                 </div>
@@ -32,15 +38,19 @@
                     <div class="col">
                         <div class="form-group">
                             <label for="email" class="form-label">Email</label>
-                            <input required autocomplete="off" type="email" class="form-control" id="email"
-                                aria-describedby="email">
+                            {{with .Form.Errors.Get "email"}}
+                                <label class="text-danger">{{.}}</label> 
+                            {{end}}
+                            <input required autocomplete="off" type="email" class="form-control {{with .Form.Errors.Get "email" }} is-invalid {{end}}" value="{{$res.Email}}" id="email" name="email">
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-group">
                             <label for="phone" class="form-label">Phone</label>
-                            <input required autocomplete="off" type="number" class="form-control" id="phone"
-                                aria-describedby="phone">
+                            {{with .Form.Errors.Get "phone"}}
+                                <label class="text-danger">{{.}}</label> 
+                            {{end}}
+                            <input required autocomplete="off" type="number" class="form-control {{with .Form.Errors.Get "phone"}} is-invalid {{end}}" value="{{$res.Phone}}" id="phone" name="phone">
                         </div>
                     </div>
                 </div>
@@ -48,15 +58,19 @@
                     <div class="col">
                         <div class="form-group">
                             <label for="startdate" class="form-label">Start Date</label>
-                            <input required autocomplete="off" type="text" class="form-control" id="startdate"
-                                placeholder="Check in">
+                            {{with .Form.Errors.Get "startdate"}}
+                                <label class="text-danger">{{.}}</label> 
+                            {{end}}
+                            <input required autocomplete="off" type="text" class="form-control  {{with .Form.Errors.Get "startdate"}} is-invalid {{end}}" id="startdate" name="startdate" value="{{$res.Checkin}}" placeholder="Check in">
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-group">
                             <label for="enddate" class="form-label">End Date</label>
-                            <input required autocomplete="off" type="text" class="form-control" id="enddate"
-                                placeholder="Check out"">
+                            {{with .Form.Errors.Get "enddate"}}
+                                <label class="text-danger">{{.}}</label> 
+                            {{end}}
+                            <input required autocomplete="off" type="text" class="form-control  {{with .Form.Errors.Get "enddate"}} is-invalid {{end}}" id="enddate" name="enddate" value="{{$res.Checkout}}" placeholder="Check out">
                         </div>
                     </div>
                 </div>
@@ -70,4 +84,13 @@
         </div>
     </div>
 </div>
+{{end}}
+
+{{define "js"}}
+<script>
+    const elem = document.getElementById('reservation-dates');
+    const rangepicker = new DateRangePicker(elem, {
+        //format: "yyyy-mm-dd"
+    });
+</script>
 {{end}}

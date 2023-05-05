@@ -21,4 +21,14 @@ type Reservation struct {
 	LastName  string
 	Email     string
 	Phone     string
+	Checkin   string
+	Checkout  string
+}
+
+// registeration form
+type Registration struct {
+	FirstName string
+	LastName  string
+	Email     string
+	Password  string
 }

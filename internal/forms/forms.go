@@ -42,6 +42,7 @@ func (f *Form) Required(fields ...string) {
 func (f *Form) Has(field string, r *http.Request) bool {
 	x := r.Form.Get(field)
 	if x == "" {
+		f.Errors.Add(field, "This field cannot be blank.")
 		return false
 	}
 	return true
@@ -62,4 +63,29 @@ func (f *Form) IsEmail(field string) {
 	if !govalidator.IsEmail(f.Get(field)) {
 		f.Errors.Add(field, "Invalid email address")
 	}
+}
+
+// MaxLength check for maximum length
+func (f *Form) MaxLength(field string, length int, r *http.Request) bool {
+	x := r.Form.Get(field)
+	if len(x) > length {
+		f.Errors.Add(field, fmt.Sprintf("This field must be less than %d characters long", length))
+		return false
+	}
+	return true
+}
+
+// check if input is a numeric value only
+func (f *Form) Is_numeric(word string, r *http.Request) bool {
+	return govalidator.IsNumeric(word)
+}
+
+// check if input is a numeric value only
+func (f *Form) IsAlphaNumeric(word string, r *http.Request) bool {
+	return govalidator.IsAlphanumeric(word)
+}
+
+// check if input is a numeric value only
+func (f *Form) IsSame(word1, word2 string) bool {
+	return strings.Compare(word1, word2) == 0
 }

@@ -8,9 +8,49 @@
 <div class="container">
     <div class="row">
         <div class="col">
-            <h1 class="text-center mt-5">This is Contact Page</h1>
+            <h1 class="text-center mt-5">Contact Us</h1>
             <hr>
-
+            <form action="" method="post" class="" novalidate>
+            <div class="form-row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="firstname" class="form-label">First Name</label>
+                        <input required autocomplete="on" type="text" class="form-control" value="" id="firstname" name="firstname" >
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="lastname" class="form-label">Last Name</label>
+                        <input required autocomplete="on" type="text" class="form-control" value="" id="lastname" name="lastname">
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email</label>
+                        <input required autocomplete="off" type="email" class="form-control" value="" id="email" name="email">
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="phone" class="form-label">Phone</label>
+                        <input required autocomplete="off" type="number" class="form-control" value="" id="phone" name="phone">
+                    </div>
+                </div>
+            </div>
+            <div class="form-row" id="message">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="message" class="form-label">Message</label>
+                        <textarea required autocomplete="off" class="form-control" id="message" name="message" value=""></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class=" col text-center">
+                <button type="submit" class="btn btn-primary">Send</button>
+            </div>
+            </form>
 
 
         </div>
