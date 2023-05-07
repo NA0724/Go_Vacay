@@ -40,6 +40,7 @@ func main() {
 func run() error {
 	gob.Register(models.Reservation{})
 	gob.Register(models.Registration{})
+	gob.Register(models.Login{})
 	//set to true if production environment
 	app.InProd = false
 
