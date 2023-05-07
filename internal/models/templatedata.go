@@ -31,4 +31,37 @@ type Registration struct {
 	LastName  string
 	Email     string
 	Password  string
+	Phone     string
+}
+
+type Login struct {
+	Email    string
+	Password string
+}
+
+type Traveller struct {
+	FirstName string
+	LastName  string
+	Email     string
+	Phone     string
+	Gender    string
+}
+
+type User struct {
+	FirstName  string
+	LastName   string
+	Email      string
+	Password   string
+	Phone      string
+	Bookings   map[string]string
+	Gender     string
+	Travellers []Traveller
+}
+
+type Booking struct {
+	Room      string
+	Checkin   string
+	Checkout  string
+	GuestList []Traveller
+	Details   string
 }

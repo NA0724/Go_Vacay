@@ -14,6 +14,7 @@ import (
 )
 
 var app *config.AppConfig
+var pathToTemplates = "internal/templates/"
 
 // sets the config for the template package
 func NewTemplates(a *config.AppConfig) {
@@ -61,7 +62,7 @@ func CreateTemplateCache() (map[string]*template.Template, error) {
 	tempCache := map[string]*template.Template{}
 
 	//get all files named *.page.html from ./templates
-	pages, err := filepath.Glob(config.GetDirPath() + "internal/templates/*.page.html")
+	pages, err := filepath.Glob(config.GetDirPath() + fmt.Sprintf("%s/*.page.html", pathToTemplates))
 
 	if err != nil {
 		return tempCache, err

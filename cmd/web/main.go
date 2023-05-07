@@ -22,7 +22,22 @@ var app config.AppConfig
 
 // main is the main function
 func main() {
+	err := run()
+	if err != nil {
+		log.Fatal(err)
+	}
 
+	fmt.Printf("Staring application on port %s \n", portNumber)
+
+	serve := &http.Server{
+		Addr:    portNumber,
+		Handler: Routes(&app),
+	}
+	err = serve.ListenAndServe()
+	log.Fatal(err)
+}
+
+func run() error {
 	gob.Register(models.Reservation{})
 	gob.Register(models.Registration{})
 	//set to true if production environment
@@ -40,6 +55,7 @@ func main() {
 	tempCache, err := renderers.CreateTemplateCache()
 	if err != nil {
 		log.Fatal("cannot create template cache", err)
+		return err
 	}
 
 	app.TemplateCache = tempCache
@@ -49,13 +65,5 @@ func main() {
 	handlers.NewHandlers(repo)
 
 	renderers.NewTemplates(&app)
-
-	fmt.Printf("Staring application on port %s \n", portNumber)
-
-	serve := &http.Server{
-		Addr:    portNumber,
-		Handler: Routes(&app),
-	}
-	err = serve.ListenAndServe()
-	log.Fatal(err)
+	return nil
 }

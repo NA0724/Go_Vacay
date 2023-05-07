@@ -16,3 +16,9 @@ This is the repository for Go Vacay application,which is a bookings and reservat
 To change diretory path
 1. go to config.go
 2. inside `GetPath()` method, update your directory path
+
+To run test file
+go test
+go test -v
+go test -cover
+go test -coverprofile=coverage.out && go tool cover -html=coverage.out

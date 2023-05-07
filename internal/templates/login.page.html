@@ -10,23 +10,30 @@
         <div class="col">
             <h1 class="mt-5">Login Here</h1>
             <hr>
-            <form>
+            {{$reg := index .Data "register"}}
+            <form action="" method="post" class="" novalidate>
+                <input type="hidden" name="csrf_token" value="{{.CSRFToken}}" />
                 <div class="form-row">
                     <div class="col-md-3">
                         <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Email address</label>
-                            <input required type="email" class="form-control" id="exampleInputEmail1"
-                                aria-describedby="emailHelp">
+                            <label for="email" class="form-label">Email Address</label>
+                            {{with .Form.Errors.Get "email"}}
+                                <label class="text-danger">{{.}}</label> 
+                            {{end}}
+                            <input required type="email" class="form-control {{with .Form.Errors.Get "email" }} is-invalid {{end}}" value="{{$reg.Email}}" id="email" name="email">
                         </div>
                         <div class="mb-3">
-                            <label for="exampleInputPassword1" class="form-label">Password</label>
-                            <input required type="password" class="form-control" id="exampleInputPassword1">
+                            <label for="password" class="form-label">Password</label>
+                            {{with .Form.Errors.Get "password"}}
+                                <label class="text-danger">{{.}}</label> 
+                            {{end}}
+                            <input required type="password" class="form-control {{with .Form.Errors.Get "password" }} is-invalid {{end}}" id="password" name="password" value="{{$reg.Password}}">
                         </div>
                     </div>
                 </div>
                 <div class="mb-3 form-check">
                     <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                    <label class="form-check-label" for="exampleCheck1">Remember Me</label>
+                    <label class="form-check-label" for="exampleCheck1">Check me out/Remember Me</label>
                 </div>
                 <hr>
                 <div class="form-row">
