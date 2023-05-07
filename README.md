@@ -18,7 +18,7 @@ To change diretory path
 2. inside `GetPath()` method, update your directory path
 
 To run test file
-`go test`
-`go test -v`
-`go test -cover`
-`go test -coverprofile=coverage.out && go tool cover -html=coverage.out`
+- `go test`
+- `go test -v`
+- `go test -cover`
+- `go test -coverprofile=coverage.out && go tool cover -html=coverage.out`
