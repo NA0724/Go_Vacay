@@ -36,7 +36,7 @@ func (m *Repository) PostLogin(w http.ResponseWriter, r *http.Request) {
 	form := forms.New(r.PostForm)
 	form.Required("email", "password")
 	form.IsEmail("email")
-	form.IsAlphaNumeric("password", r)
+	form.IsAlphaNumeric("password")
 	if !form.Valid() {
 		data := make(map[string]interface{})
 		data["register"] = register

@@ -2,7 +2,6 @@ package forms
 
 import (
 	"fmt"
-	"net/http"
 	"net/url"
 	"strings"
 
@@ -39,8 +38,8 @@ func (f *Form) Required(fields ...string) {
 }
 
 // Has checks if form field is in post and not empty
-func (f *Form) Has(field string, r *http.Request) bool {
-	x := r.Form.Get(field)
+func (f *Form) Has(field string) bool {
+	x := f.Get(field)
 	if x == "" {
 		f.Errors.Add(field, "This field cannot be blank.")
 		return false
@@ -49,8 +48,8 @@ func (f *Form) Has(field string, r *http.Request) bool {
 }
 
 // MinLength check for minimum length
-func (f *Form) MinLength(field string, length int, r *http.Request) bool {
-	x := r.Form.Get(field)
+func (f *Form) MinLength(field string, length int) bool {
+	x := f.Get(field)
 	if len(x) < length {
 		f.Errors.Add(field, fmt.Sprintf("This field must be at least %d characters long", length))
 		return false
@@ -66,8 +65,8 @@ func (f *Form) IsEmail(field string) {
 }
 
 // MaxLength check for maximum length
-func (f *Form) MaxLength(field string, length int, r *http.Request) bool {
-	x := r.Form.Get(field)
+func (f *Form) MaxLength(field string, length int) bool {
+	x := f.Get(field)
 	if len(x) > length {
 		f.Errors.Add(field, fmt.Sprintf("This field must be less than %d characters long", length))
 		return false
@@ -76,16 +75,28 @@ func (f *Form) MaxLength(field string, length int, r *http.Request) bool {
 }
 
 // check if input is a numeric value only
-func (f *Form) Is_numeric(word string, r *http.Request) bool {
-	return govalidator.IsNumeric(word)
+func (f *Form) Is_numeric(word string) bool {
+	if !govalidator.IsNumeric(word) {
+		f.Errors.Add(word, fmt.Sprintf("This field must be numeric."))
+		return false
+	}
+	return true
 }
 
 // check if input is a numeric value only
-func (f *Form) IsAlphaNumeric(word string, r *http.Request) bool {
-	return govalidator.IsAlphanumeric(word)
+func (f *Form) IsAlphaNumeric(word string) bool {
+	if !govalidator.IsAlphanumeric(word) {
+		f.Errors.Add(word, fmt.Sprintf("This field must contain alphabets and numbers only. No other characters allowed."))
+		return false
+	}
+	return true
 }
 
 // check if input is a numeric value only
 func (f *Form) IsSame(word1, word2 string) bool {
+	if strings.Compare(word1, word2) != 0 {
+		f.Errors.Add(word1, fmt.Sprintf("Fields do not match."))
+		return false
+	}
 	return strings.Compare(word1, word2) == 0
 }
