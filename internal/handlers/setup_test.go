@@ -5,8 +5,11 @@ import (
 	"Go_Vacay/internal/models"
 	"Go_Vacay/internal/renderers"
 	"encoding/gob"
+	"fmt"
 	"log"
 	"net/http"
+	"path/filepath"
+	"text/template"
 	"time"
 
 	"github.com/alexedwards/scs/v2"
@@ -17,10 +20,13 @@ import (
 
 var app config.AppConfig
 var session *scs.SessionManager
+var pathToTemplates = "./../../templates"
+var functions = template.FuncMap{}
 
 func getRoutes() http.Handler {
 	gob.Register(models.Reservation{})
 	gob.Register(models.Registration{})
+	gob.Register(models.Login{})
 	//set to true if production environment
 	app.InProd = false
 
@@ -33,7 +39,7 @@ func getRoutes() http.Handler {
 
 	app.Session = session
 
-	tempCache, err := renderers.CreateTemplateCache()
+	tempCache, err := CreateTestTemplateCache()
 	if err != nil {
 		log.Fatal("cannot create template cache", err)
 	}
@@ -47,7 +53,7 @@ func getRoutes() http.Handler {
 	renderers.NewTemplates(&app)
 	mux := chi.NewRouter()
 	mux.Use(middleware.Recoverer)
-	mux.Use(Nosurf)
+	//mux.Use(Nosurf) because csrf token is not in tests
 	mux.Use(SessionLoadandSave)
 
 	mux.Get("/", Repo.Home)
@@ -98,4 +104,38 @@ func Nosurf(next http.Handler) http.Handler {
 // Loads and Saves the session on every request
 func SessionLoadandSave(next http.Handler) http.Handler {
 	return session.LoadAndSave(next)
+}
+
+func CreateTestTemplateCache() (map[string]*template.Template, error) {
+
+	tempCache := map[string]*template.Template{}
+
+	//get all files named *.page.html from ./templates
+	pages, err := filepath.Glob(config.GetDirPath() + fmt.Sprintf("%s/*.page.html", pathToTemplates))
+
+	if err != nil {
+		return tempCache, err
+	}
+
+	//range through all pages ending with *.page.html
+	for _, page := range pages {
+		name := filepath.Base(page)                                     // get only the last element in path, i.e name of the file
+		ts, err := template.New(name).Funcs(functions).ParseFiles(page) // ts pointer to template
+		if err != nil {
+			return tempCache, err
+		}
+		// find the layout template
+		matches, er := filepath.Glob(config.GetDirPath() + fmt.Sprintf("%s/*.layout.html", pathToTemplates)) // find layout file
+		if er != nil {
+			return tempCache, err
+		}
+		if len(matches) > 0 {
+			ts, err = ts.ParseGlob(config.GetDirPath() + fmt.Sprintf("%s/*.layout.html", pathToTemplates)) // parse layout file
+			if err != nil {
+				return tempCache, err
+			}
+		}
+		tempCache[name] = ts
+	}
+	return tempCache, nil
 }

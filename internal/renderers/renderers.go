@@ -4,6 +4,7 @@ import (
 	"Go_Vacay/internal/config"
 	"Go_Vacay/internal/models"
 	"bytes"
+	"errors"
 	"fmt"
 	"log"
 	"net/http"
@@ -14,7 +15,9 @@ import (
 )
 
 var app *config.AppConfig
+
 var pathToTemplates = "internal/templates/"
+var functions = template.FuncMap{}
 
 // sets the config for the template package
 func NewTemplates(a *config.AppConfig) {
@@ -30,7 +33,7 @@ func AddDefaultData(td *models.TemplateData, r *http.Request) *models.TemplateDa
 	return td
 }
 
-func RenderTemplate(w http.ResponseWriter, tmpl string, tempdata *models.TemplateData, r *http.Request) {
+func RenderTemplate(w http.ResponseWriter, tmpl string, tempdata *models.TemplateData, r *http.Request) error {
 
 	var tc map[string]*template.Template
 	var er error
@@ -45,6 +48,7 @@ func RenderTemplate(w http.ResponseWriter, tmpl string, tempdata *models.Templat
 	t, ok := tc[tmpl]
 	if !ok {
 		log.Fatal("could not get template from template cache", er)
+		return errors.New("could not get template from template cache")
 	}
 	buffer := new(bytes.Buffer)
 	tempdata = AddDefaultData(tempdata, r) //default data
@@ -52,7 +56,9 @@ func RenderTemplate(w http.ResponseWriter, tmpl string, tempdata *models.Templat
 	_, err := buffer.WriteTo(w)
 	if err != nil {
 		fmt.Println("error writing template to browser", err)
+		return err
 	}
+	return nil
 }
 
 // create a template cache and return the map,
@@ -70,18 +76,19 @@ func CreateTemplateCache() (map[string]*template.Template, error) {
 
 	//range through all pages ending with *.page.html
 	for _, page := range pages {
-		name := filepath.Base(page)                    // get only the last element in path, i.e name of the file
-		ts, err := template.New(name).ParseFiles(page) // ts pointer to template
+		name := filepath.Base(page) // get only the last element in path, i.e name of the file
+		//ts, err := template.New(name).ParseFiles(page) // ts pointer to template
+		ts, err := template.New(name).Funcs(functions).ParseFiles(page)
 		if err != nil {
 			return tempCache, err
 		}
 		// find the layout template
-		matches, er := filepath.Glob(config.GetDirPath() + "internal/templates/*.layout.html") // find layout file
+		matches, er := filepath.Glob(config.GetDirPath() + fmt.Sprintf("%s/*.layout.html", pathToTemplates)) // find layout file
 		if er != nil {
 			return tempCache, err
 		}
 		if len(matches) > 0 {
-			ts, err = ts.ParseGlob(config.GetDirPath() + "internal/templates/*.layout.html") // parse layout file
+			ts, err = ts.ParseGlob(config.GetDirPath() + fmt.Sprintf("%s/*.layout.html", pathToTemplates)) // parse layout file
 			if err != nil {
 				return tempCache, err
 			}

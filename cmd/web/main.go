@@ -43,7 +43,6 @@ func run() error {
 	gob.Register(models.Login{})
 	//set to true if production environment
 	app.InProd = false
-
 	//initialise session
 	session = scs.New()
 	session.Lifetime = 24 * time.Hour
@@ -60,7 +59,7 @@ func run() error {
 	}
 
 	app.TemplateCache = tempCache
-	app.UseCache = false // false for development mode, true for prod or qa mode
+	app.UseCache = true // false for development mode, true for prod or qa mode
 
 	repo := handlers.NewRepo(&app)
 	handlers.NewHandlers(repo)
