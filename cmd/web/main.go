@@ -1,6 +1,7 @@
 package main
 
 import (
+	"database/sql"
 	"encoding/gob"
 	"fmt"
 	"log"
@@ -15,6 +16,8 @@ import (
 	"Go_Vacay/internal/renderers"
 
 	"github.com/alexedwards/scs/v2"
+
+	_ "github.com/jackc/pgx/v5"
 )
 
 const portNumber = ":8080"
@@ -82,4 +85,22 @@ func run() error {
 	helpers.NewHelpers(&app)
 
 	return nil
+}
+
+func connectDB() {
+	//connect to database
+	conn, err := sql.Open("pgx", "host=localhost port=5432 dbname=govacaydb user=neharaj password=")
+	if err != nil {
+		log.Fatal(fmt.Sprintf("unable to connect to database: %v", err))
+	}
+	defer conn.Close()
+	log.Println("Successfully connected to database")
+
+	//test connection
+	err = conn.Ping()
+	if err != nil {
+		log.Fatal("cannot ping database", err)
+	}
+	log.Println("Successfully pinged database")
+
 }
