@@ -11,6 +11,7 @@ This is the repository for Go Vacay application,which is a bookings and reservat
 - Uses [chi router](https://github.com/go-chi/chi) v5.0.8, 
 - [alex edwards scs session management](https://github.com/alexedwards/scs) v2.5.0, 
 - [nosurf](https://github.com/justinas/nosurf) v1.1.1
+- [pgx - PostgreSQL Driver and Toolkit](https://github.com/jackc/pgx) v5
 
 
 To run the application, you need to do the following
