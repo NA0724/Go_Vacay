@@ -1,0 +1,7 @@
+create_table("rooms") {
+    t.Column("id", "integer", {"primary": true})
+  t.Column("type", "string", {})
+  t.Column("name", "string", {"size": 50, "default":"", "null": false})
+  t.Column("description", "string", {"size": 500, "default":""})
+  t.Column("price", "float", {})
+}

@@ -4,6 +4,7 @@ import (
 	"Go_Vacay/internal/config"
 	"Go_Vacay/internal/models"
 	"encoding/gob"
+	"log"
 	"net/http"
 	"os"
 	"testing"
@@ -38,8 +39,16 @@ func TestMain(m *testing.M) {
 	gob.Register(models.Reservation{})
 	gob.Register(models.Registration{})
 	gob.Register(models.Login{})
+
 	//set to true if production environment
 	testApp.InProd = false
+
+	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
+	testApp.InfoLog = infoLog
+
+	errorLog := log.New(os.Stdout, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
+	testApp.ErrorLog = errorLog
+
 	//initialise session
 	session = scs.New()
 	session.Lifetime = 24 * time.Hour

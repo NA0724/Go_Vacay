@@ -1,0 +1,7 @@
+create_table("hotels") {
+    t.Column("id", "integer", {"primary": true})
+  t.Column("room_id", "integer", {})
+  t.Column("name", "string", {"size": 50, "default":""})
+  t.Column("description", "string", {"size": 500, "default":""})
+  t.Column("address", "string", {})
+}

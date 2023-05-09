@@ -1,11 +1,11 @@
 package handlers
 
 import (
+	"Go_Vacay/internal/helpers"
 	"Go_Vacay/internal/models"
 	"Go_Vacay/internal/renderers"
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 )
 
@@ -35,7 +35,8 @@ func (m *Repository) SearchAvailabilityJSON(w http.ResponseWriter, r *http.Reque
 	}
 	out, err := json.MarshalIndent(respone, "", " 	")
 	if err != nil {
-		log.Println(err)
+		helpers.ServerError(w, err)
+		return
 	}
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(out)

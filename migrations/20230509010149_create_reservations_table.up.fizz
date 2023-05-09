@@ -1,0 +1,12 @@
+create_table("reservations") {
+    t.Column("id", "integer", {"primary": true})
+  t.Column("email", "string", {})
+  t.Column("phone", "integer", {})
+  t.Column("firstname", "string", {"size": 50, "default":"", "null": false})
+  t.Column("lastname", "string", {"size": 50, "default":"", "null": false})
+  t.Column("age", "integer", {"default": 0})
+  t.Column("gender", "string", {})
+  t.Column("startdate", "date", {})
+  t.Column("enddate", "date", {})
+  t.Column("hotel_id", "integer", {})
+}

@@ -2,9 +2,9 @@ package handlers
 
 import (
 	"Go_Vacay/internal/forms"
+	"Go_Vacay/internal/helpers"
 	"Go_Vacay/internal/models"
 	"Go_Vacay/internal/renderers"
-	"log"
 	"net/http"
 )
 
@@ -24,7 +24,7 @@ func (m *Repository) Register(w http.ResponseWriter, r *http.Request) {
 func (m *Repository) PostRegister(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
 	if err != nil {
-		log.Println(err)
+		helpers.ServerError(w, err)
 		return
 	}
 	register := models.Registration{
@@ -63,7 +63,7 @@ func (m *Repository) PostRegister(w http.ResponseWriter, r *http.Request) {
 func (m *Repository) MyProfile(w http.ResponseWriter, r *http.Request) {
 	register, ok := m.App.Session.Get(r.Context(), "register").(models.Registration)
 	if !ok {
-		log.Println("Can't get user item from session")
+		m.App.ErrorLog.Println("Can't get user item from session")
 		m.App.Session.Put(r.Context(), "error", "Can't get user from session")
 		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 		return

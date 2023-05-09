@@ -1,0 +1,14 @@
+create_table("users") {
+    t.Column("id", "integer", {"primary": true})
+  t.Column("email", "string", {})
+  t.Column("phone", "integer", {})
+  t.Column("firstname", "string", {"size": 50, "default":"", "null": false})
+  t.Column("lastname", "string", {"size": 50, "default":"", "null": false})
+  t.Column("age", "integer", {"default": 0})
+  t.Column("gender", "string", {})
+  t.Column("birthday", "string", {"default": "1000-01-01"})
+  t.Column("password", "string", {"size": 60})
+  t.Column("access_level", "integer", {"default": 1})
+  t.Column("reservation_id", "integer", {})
+  t.Column("traveler_id", "integer", {})
+}

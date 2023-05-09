@@ -2,9 +2,9 @@ package handlers
 
 import (
 	"Go_Vacay/internal/forms"
+	"Go_Vacay/internal/helpers"
 	"Go_Vacay/internal/models"
 	"Go_Vacay/internal/renderers"
-	"log"
 	"net/http"
 )
 
@@ -24,7 +24,7 @@ func (m *Repository) MakeReservation(w http.ResponseWriter, r *http.Request) {
 func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
 	if err != nil {
-		log.Println(err)
+		helpers.ServerError(w, err)
 		return
 	}
 
@@ -66,7 +66,7 @@ func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
 func (m *Repository) ReservationSummary(w http.ResponseWriter, r *http.Request) {
 	reservation, ok := m.App.Session.Get(r.Context(), "reservation").(models.Reservation)
 	if !ok {
-		log.Println("Can't get item from session")
+		m.App.ErrorLog.Println("Can't get item from session")
 		m.App.Session.Put(r.Context(), "error", "Can't get reservation from session")
 		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 		return

@@ -2,10 +2,10 @@ package handlers
 
 import (
 	"Go_Vacay/internal/forms"
+	"Go_Vacay/internal/helpers"
 	"Go_Vacay/internal/models"
 	"Go_Vacay/internal/renderers"
 	"fmt"
-	"log"
 	"net/http"
 )
 
@@ -26,7 +26,7 @@ func (m *Repository) PostLogin(w http.ResponseWriter, r *http.Request) {
 	fmt.Print("inside postlogin function")
 	err := r.ParseForm()
 	if err != nil {
-		log.Println(err)
+		helpers.ServerError(w, err)
 		return
 	}
 	register := models.Login{

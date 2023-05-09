@@ -23,6 +23,7 @@ type Reservation struct {
 	Phone     string
 	Checkin   string
 	Checkout  string
+	Hotel     Hotel
 }
 
 // registeration form
@@ -59,9 +60,24 @@ type User struct {
 }
 
 type Booking struct {
-	Room      string
-	Checkin   string
-	Checkout  string
-	GuestList []Traveller
-	Details   string
+	Hotel    Hotel
+	Room     Room
+	Checkin  string
+	Checkout string
+	Details  string
+}
+
+type Hotel struct {
+	Rooms    []Room
+	Checkin  string
+	Checkout string
+	Details  string
+	Address  string
+}
+
+type Room struct {
+	Name        string
+	Type        string
+	Price       float64
+	Description string
 }

@@ -1,0 +1,9 @@
+add_foreign_key("users", "traveler_id", {"travellers": ["id"]}, {
+    "on_delete": "cascade",
+    "on_update": "cascade",
+})
+
+add_foreign_key("users", "reservation_id", {"reservations": ["id"]}, {
+    "on_delete": "cascade",
+    "on_update": "cascade",
+})

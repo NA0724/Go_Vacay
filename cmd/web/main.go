@@ -5,10 +5,12 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"time"
 
 	"Go_Vacay/internal/config"
 	"Go_Vacay/internal/handlers"
+	"Go_Vacay/internal/helpers"
 	"Go_Vacay/internal/models"
 	"Go_Vacay/internal/renderers"
 
@@ -16,6 +18,9 @@ import (
 )
 
 const portNumber = ":8080"
+
+var infoLog *log.Logger
+var errorLog *log.Logger
 
 var session *scs.SessionManager
 var app config.AppConfig
@@ -41,8 +46,16 @@ func run() error {
 	gob.Register(models.Reservation{})
 	gob.Register(models.Registration{})
 	gob.Register(models.Login{})
+
 	//set to true if production environment
 	app.InProd = false
+
+	infoLog = log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
+	app.InfoLog = infoLog
+
+	errorLog = log.New(os.Stdout, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
+	app.ErrorLog = errorLog
+
 	//initialise session
 	session = scs.New()
 	session.Lifetime = 24 * time.Hour
@@ -65,5 +78,8 @@ func run() error {
 	handlers.NewHandlers(repo)
 
 	renderers.NewTemplates(&app)
+
+	helpers.NewHelpers(&app)
+
 	return nil
 }

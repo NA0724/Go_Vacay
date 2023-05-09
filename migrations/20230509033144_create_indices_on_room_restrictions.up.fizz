@@ -1,0 +1,3 @@
+add_index("rooms_restrictions", ["startdate", "enddate"], {})
+add_index("rooms_restrictions", "room_id", {})
+add_index("rooms_restrictions", "reservation_id", {})
